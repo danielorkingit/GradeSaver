@@ -22,44 +22,73 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
-
+// 15jul4-Iv8TdGq8gxvH49EGX_xmNeAAls folder-id
 	  
 
 	  public static void main(String... args) throws IOException, GeneralSecurityException {
 		  
+		Scanner userinput = new Scanner(System.in);
+		
+		String subject;
+		int type;
+		String description;
+		int points;
+		
+		System.out.println("Fach: ");
+		subject = userinput.next();
+		
+		System.out.println("Klausur (1) Mündliche Note (2) Sonstiges (3): ");
+		type = Integer.parseInt(userinput.next());
+		
+		System.out.println("Beschreibung: ");
+		description = userinput.next();
+		
+		System.out.println("Punktanzahl (0-15): ");
+		points = Integer.parseInt(userinput.next());
+		
+		GradeModel grade = new GradeModel(subject, type, description, points);
+		
+		grade.writeToFile(grade.subject, grade.type, grade.description, grade.points);
+		
 	    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 	    Drive service = new Drive.Builder(HTTP_TRANSPORT, auth.JSON_FACTORY, auth.getCredentials(HTTP_TRANSPORT))
 	        .setApplicationName(auth.APPLICATION_NAME)
 	        .build();
 	    
-	    List<File> files = new ArrayList<File>();
-	    
-	    
 	    
 	    File fileMetadata = new File();
-	    fileMetadata.setName("OBERSTUFE_PUNKTE");
-	    fileMetadata.setMimeType("application/vnd.google-apps.folder");
+	    fileMetadata.setName(java.time.LocalDate.now()+".json");
+	    fileMetadata.setParents(Collections.singletonList("15jul4-Iv8TdGq8gxvH49EGX_xmNeAAls"));
+	    java.io.File filePath = new java.io.File("C:\\Users\\danie\\eclipse-workspace\\GradeSaver\\json\\data.json");
+	    FileContent mediaContent = new FileContent("application/json", filePath);
+
+	    // fileMetadata.setMimeType("application/vnd.google-apps.folder");
 	    try {
-	      File file = service.files().create(fileMetadata)
+	      File file = service.files().create(fileMetadata, mediaContent)
 	          .setFields("id")
 	          .execute();
-	      System.out.println("Folder ID: " + file.getId());
+	      System.out.println("Success.");
 	      
 	    } catch (GoogleJsonResponseException e) {
 	      // TODO(developer) - handle error appropriately
 	      System.err.println("Unable to create folder: " + e.getDetails());
 	      throw e;
 	    }
+	    
+	    Scanner sc = new Scanner(System.in);
+	    String x = sc.nextLine();
+	    
+	    service.files().delete(x);
+	    
 	  }
 	}
 
 
 /* public class Main {
-	
-	String apikey = "AIzaSyAkIZocpL1dALVYfNtAcg3LkVOrwT5cdPQ";
-	
+		
 	public static void main(String[] args) {
 		GradeModel grade = new GradeModel("Math", "Klausur", "GFS",15);
 		
