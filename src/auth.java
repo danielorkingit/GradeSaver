@@ -17,7 +17,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.DriveScopes;
 
 public class auth {
-	static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
+	static final String APPLICATION_NAME = "Grade Saver";
 
 	static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 

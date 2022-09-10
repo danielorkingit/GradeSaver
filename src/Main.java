@@ -53,7 +53,6 @@ public class Main {
 	    java.io.File filePath = new java.io.File("C:\\Users\\danie\\eclipse-workspace\\GradeSaver\\json\\data.json");
 	    FileContent mediaContent = new FileContent("application/json", filePath);
 
-	    // fileMetadata.setMimeType("application/vnd.google-apps.folder");
 	    try {
 	      File file = service.files().create(fileMetadata, mediaContent)
 	          .setFields("id")
@@ -61,7 +60,6 @@ public class Main {
 	      System.out.println("Success.");
 	      
 	    } catch (GoogleJsonResponseException e) {
-	      // TODO(developer) - handle error appropriately
 	      System.err.println("Unable to create folder: " + e.getDetails());
 	      throw e;
 	    }
